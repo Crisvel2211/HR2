@@ -1,121 +1,144 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function TrainingType() {
-  const [entries, setEntries] = useState(5); // Number of entries to display
-  const [data, setData] = useState([
-    {
-      id: 1,
-      trainingType: 'Leadership Skills',
-      description: 'Develop leadership qualities and improve decision-making.',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      trainingType: 'Time Management',
-      description: 'Techniques to improve time utilization and productivity.',
-      status: 'Active',
-    },
-    {
-      id: 3,
-      trainingType: 'Communication Skills',
-      description: 'Improve both verbal and non-verbal communication.',
-      status: 'Inactive',
-    },
-    {
-      id: 4,
-      trainingType: 'Project Management',
-      description: 'Skills to efficiently manage and lead projects.',
-      status: 'Active',
-    },
-  ]);
-
-  const handleEntriesChange = (e) => {
-    setEntries(e.target.value);
+  // Function to retrieve training data from local storage
+  const getStoredData = () => {
+    const data = localStorage.getItem('trainingTypes');
+    return data ? JSON.parse(data) : [];
   };
 
+  // Initial state with data from local storage
+  const [trainingData, setTrainingData] = useState(getStoredData());
+  const [form, setForm] = useState({
+    id: '',
+    trainingType: '',
+    description: '',
+    status: '',
+  });
+
+  // Update local storage whenever trainingData changes
+  useEffect(() => {
+    localStorage.setItem('trainingTypes', JSON.stringify(trainingData));
+  }, [trainingData]);
+
+  // Handle form input
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Create or Update Record
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.id) {
+      // Update
+      setTrainingData(
+        trainingData.map((item) =>
+          item.id === parseInt(form.id) ? { ...form, id: parseInt(form.id) } : item
+        )
+      );
+    } else {
+      // Create
+      setTrainingData([
+        ...trainingData,
+        { ...form, id: trainingData.length + 1 },
+      ]);
+    }
+    // Reset form
+    setForm({
+      id: '',
+      trainingType: '',
+      description: '',
+      status: '',
+    });
+  };
+
+  // Delete Record
   const handleDelete = (id) => {
-    const updatedData = data.filter((item) => item.id !== id);
-    setData(updatedData);
+    setTrainingData(trainingData.filter((item) => item.id !== id));
+  };
+
+  // Edit Record
+  const handleEdit = (id) => {
+    const recordToEdit = trainingData.find((item) => item.id === id);
+    setForm(recordToEdit);
   };
 
   return (
-    <div className="bg-gray-200 text-black h-auto p-5">
-      {/* Header Section */}
-      <div className="flex justify-between items-center p-2">
-        <div className="font-bold text-xl px-4">Training Types</div>
-        <div className="px-4 flex justify-center items-center">
-          <button className="bg-blue-500 text-white rounded hover:bg-blue-600 px-4 py-2">
-            + Add New
-          </button>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Training Management</h2>
+
+      {/* Form for Add/Edit */}
+      <form onSubmit={handleSubmit} className="mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input
+            type="text"
+            name="trainingType"
+            value={form.trainingType}
+            onChange={handleChange}
+            placeholder="Training Type"
+            className="input input-bordered"
+            required
+          />
+          <input
+            type="text"
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            placeholder="Description"
+            className="input input-bordered"
+            required
+          />
+          <input
+            type="text"
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+            placeholder="Status"
+            className="input input-bordered"
+            required
+          />
         </div>
-      </div>
+        <button type="submit" className="btn btn-primary mt-4">
+          {form.id ? 'Update' : 'Add'}
+        </button>
+      </form>
 
-      {/* Show Entries Dropdown */}
-      <div className="flex items-center mt-4 px-6">
-        <p className="mr-2">Show</p>
-        <select
-          value={entries}
-          onChange={handleEntriesChange}
-          className="bg-white border border-gray-300 rounded px-2"
-        >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={25}>25</option>
-          <option value={50}>50</option>
-        </select>
-        <p className="ml-2">entries</p>
-      </div>
-
-      {/* Table Content */}
-      <div className="p-5">
-        <table className="min-w-full bg-white border">
-          <thead className="bg-gray-300">
-            <tr>
-              <th className="py-2 px-4 border">#</th>
-              <th className="py-2 px-4 border">Training Type</th>
-              <th className="py-2 px-4 border">Description</th>
-              <th className="py-2 px-4 border">Status</th>
-              <th className="py-2 px-4 border">Action</th>
+      {/* Training Records Table */}
+      <table className="table-auto w-full bg-base-100 shadow-md rounded-lg">
+        <thead>
+          <tr className="bg-base-200">
+            <th className="px-4 py-2">#</th>
+            <th className="px-4 py-2">Training Type</th>
+            <th className="px-4 py-2">Description</th>
+            <th className="px-4 py-2">Status</th>
+            <th className="px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {trainingData.map((training) => (
+            <tr key={training.id}>
+              <td className="border px-4 py-2">{training.id}</td>
+              <td className="border px-4 py-2">{training.trainingType}</td>
+              <td className="border px-4 py-2">{training.description}</td>
+              <td className="border px-4 py-2">{training.status}</td>
+              <td className="border px-4 py-2">
+                <button
+                  onClick={() => handleEdit(training.id)}
+                  className="btn btn-sm bg-blue-500 mr-2"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(training.id)}
+                  className="btn btn-sm btn-error"
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {data.slice(0, entries).map((row, index) => (
-              <tr key={row.id} className="border-t">
-                <td className="py-2 px-4 border">{index + 1}</td>
-                <td className="py-2 px-4 border">{row.trainingType}</td>
-                <td className="py-2 px-4 border">{row.description}</td>
-                <td className="py-2 px-4 border">
-                  <span
-                    className={`px-2 py-1 rounded-full text-sm flex justify-center items-center space-x-2 ${
-                      row.status === 'Active' ? 'bg-green-200' : 'bg-red-200'
-                    }`}
-                  >
-                    {row.status}
-                  </span>
-                </td>
-                <td className="py-2 px-4 flex justify-center items-center space-x-2">
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    onClick={() => handleDelete(row.id)}
-                  >
-                    Delete
-                  </button>
-                  <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 mx-1">
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Placeholder for number of entries */}
-      <div className="px-6">
-        <p>
-          Showing 1 to {Math.min(entries, data.length)} of {data.length} entries.
-        </p>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

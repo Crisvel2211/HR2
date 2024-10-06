@@ -89,7 +89,7 @@ function Sidebar() {
           className="flex justify-center items-center gap-2"
         >
           <img src={layout} alt="Dashboard logo" className="w-14" />
-          {!isCollapsed && <p className="text-xl font-bold">HR</p>}
+          {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
         </NavLink>
       </div>
 
@@ -184,7 +184,7 @@ function Sidebar() {
             },
             {
               name: "Performance Appraisal",
-              path: "/performanceAppraisal",
+              path: "/EmployeeAppraisal",
             },
           ].map((item) => (
             <li key={item.name}>

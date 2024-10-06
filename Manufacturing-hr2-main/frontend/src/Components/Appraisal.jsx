@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-function Indicator() {
-  // Retrieve data from local storage
-  const getStoredData = () => {
-    const data = localStorage.getItem('designations');
-    return data ? JSON.parse(data) : [];
-  };
+function EmployeeAppraisal() {
+  // Initial Data
+  const initialData = JSON.parse(localStorage.getItem('appraisals')) || [];
 
-  const [designationData, setDesignationData] = useState(getStoredData());
+  const [appraisalData, setAppraisalData] = useState(initialData);
   const [form, setForm] = useState({
     id: '',
+    employee: '',
     designation: '',
     department: '',
-    addedBy: '',
-    createdAt: '',
+    appraisalDate: '',
     status: '',
   });
-
-  // Update local storage whenever designationData changes
-  useEffect(() => {
-    localStorage.setItem('designations', JSON.stringify(designationData));
-  }, [designationData]);
 
   // Handle form input
   const handleChange = (e) => {
@@ -31,52 +23,66 @@ function Indicator() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (form.id) {
-      // Update existing record
-      setDesignationData(
-        designationData.map((item) =>
-          item.id === parseInt(form.id) ? { ...form, id: parseInt(form.id) } : item
+      // Update
+      setAppraisalData(
+        appraisalData.map((item) =>
+          item.id === parseInt(form.id) ? { ...form } : item
         )
       );
     } else {
-      // Create new record
-      setDesignationData([
-        ...designationData,
-        {
-          ...form,
-          id: designationData.length + 1,
-          createdAt: new Date().toISOString().split('T')[0],
-        },
+      // Create
+      setAppraisalData([
+        ...appraisalData,
+        { ...form, id: appraisalData.length + 1 },
       ]);
     }
-    // Reset form
-    setForm({
-      id: '',
-      designation: '',
-      department: '',
-      addedBy: '',
-      createdAt: '',
-      status: '',
-    });
+    resetForm();
   };
 
   // Delete Record
   const handleDelete = (id) => {
-    setDesignationData(designationData.filter((item) => item.id !== id));
+    setAppraisalData(appraisalData.filter((item) => item.id !== id));
   };
 
   // Edit Record
   const handleEdit = (id) => {
-    const recordToEdit = designationData.find((item) => item.id === id);
+    const recordToEdit = appraisalData.find((item) => item.id === id);
     setForm(recordToEdit);
   };
 
+  // Reset Form
+  const resetForm = () => {
+    setForm({
+      id: '',
+      employee: '',
+      designation: '',
+      department: '',
+      appraisalDate: '',
+      status: '',
+    });
+  };
+
+  // Save data to local storage whenever appraisalData changes
+  useEffect(() => {
+    localStorage.setItem('appraisals', JSON.stringify(appraisalData));
+  }, [appraisalData]);
+
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Designation Management</h2>
+      <h2 className="text-2xl font-bold mb-4">Employee Appraisal Management</h2>
 
       {/* Form for Add/Edit */}
       <form onSubmit={handleSubmit} className="mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input
+            type="text"
+            name="employee"
+            value={form.employee}
+            onChange={handleChange}
+            placeholder="Employee"
+            className="input input-bordered"
+            required
+          />
           <input
             type="text"
             name="designation"
@@ -96,11 +102,11 @@ function Indicator() {
             required
           />
           <input
-            type="text"
-            name="addedBy"
-            value={form.addedBy}
+            type="date"
+            name="appraisalDate"
+            value={form.appraisalDate}
             onChange={handleChange}
-            placeholder="Added By"
+            placeholder="Appraisal Date"
             className="input input-bordered"
             required
           />
@@ -119,37 +125,37 @@ function Indicator() {
         </button>
       </form>
 
-      {/* Designation Records Table */}
+      {/* Appraisal Records Table */}
       <table className="table-auto w-full bg-base-100 shadow-md rounded-lg">
         <thead>
           <tr className="bg-base-200">
             <th className="px-4 py-2">#</th>
+            <th className="px-4 py-2">Employee</th>
             <th className="px-4 py-2">Designation</th>
             <th className="px-4 py-2">Department</th>
-            <th className="px-4 py-2">Added By</th>
-            <th className="px-4 py-2">Created At</th>
+            <th className="px-4 py-2">Appraisal Date</th>
             <th className="px-4 py-2">Status</th>
             <th className="px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {designationData.map((designation) => (
-            <tr key={designation.id}>
-              <td className="border px-4 py-2">{designation.id}</td>
-              <td className="border px-4 py-2">{designation.designation}</td>
-              <td className="border px-4 py-2">{designation.department}</td>
-              <td className="border px-4 py-2">{designation.addedBy}</td>
-              <td className="border px-4 py-2">{designation.createdAt}</td>
-              <td className="border px-4 py-2">{designation.status}</td>
+          {appraisalData.map((appraisal) => (
+            <tr key={appraisal.id}>
+              <td className="border px-4 py-2">{appraisal.id}</td>
+              <td className="border px-4 py-2">{appraisal.employee}</td>
+              <td className="border px-4 py-2">{appraisal.designation}</td>
+              <td className="border px-4 py-2">{appraisal.department}</td>
+              <td className="border px-4 py-2">{appraisal.appraisalDate}</td>
+              <td className="border px-4 py-2">{appraisal.status}</td>
               <td className="border px-4 py-2">
                 <button
-                  onClick={() => handleEdit(designation.id)}
-                  className="btn btn-sm bg-blue-500 mr-2"
+                  onClick={() => handleEdit(appraisal.id)}
+                  className="btn btn-sm btn-warning mr-2"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(designation.id)}
+                  onClick={() => handleDelete(appraisal.id)}
                   className="btn btn-sm btn-error"
                 >
                   Delete
@@ -163,4 +169,4 @@ function Indicator() {
   );
 }
 
-export default Indicator;
+export default EmployeeAppraisal;
