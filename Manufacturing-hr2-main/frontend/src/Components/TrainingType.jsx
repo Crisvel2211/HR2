@@ -86,14 +86,14 @@ function TrainingType() {
                 <td className="py-2 px-4 border">{row.description}</td>
                 <td className="py-2 px-4 border">
                   <span
-                    className={`px-2 py-1 rounded-full text-sm ${
+                    className={`px-2 py-1 rounded-full text-sm flex justify-center items-center space-x-2 ${
                       row.status === 'Active' ? 'bg-green-200' : 'bg-red-200'
                     }`}
                   >
                     {row.status}
                   </span>
                 </td>
-                <td className="py-2 px-4 flex justify-center">
+                <td className="py-2 px-4 flex justify-center items-center space-x-2">
                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                     onClick={() => handleDelete(row.id)}
