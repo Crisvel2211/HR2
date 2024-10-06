@@ -12,6 +12,7 @@ import HrSuccession from "./pages/HrSuccession";
 import HrTrainers from "./pages/Learning/HrTrainers";
 import HrTrainingType from "./pages/Learning/HrTrainingType";
 import Jobs from "./pages/Jobs";
+import HrAppraisal from "./pages/Performance/HrAppraisal";
 
 
 function App() {

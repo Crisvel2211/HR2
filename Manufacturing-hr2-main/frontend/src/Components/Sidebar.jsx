@@ -184,7 +184,7 @@ function Sidebar() {
             },
             {
               name: "Performance Appraisal",
-              path: "/EmployeeAppraisal",
+              path: "/performanceappraisal",
             },
           ].map((item) => (
             <li key={item.name}>
