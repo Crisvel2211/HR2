@@ -12,7 +12,6 @@ import HrSuccession from "./pages/HrSuccession";
 import HrTrainers from "./pages/Learning/HrTrainers";
 import HrTrainingType from "./pages/Learning/HrTrainingType";
 import Jobs from "./pages/Jobs";
-import HrAppraisal from "./pages/Performance/HrAppraisal";
 
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
       <Route path="/jobPosting" element={<HrJobposting/>} />
       <Route path="/Applicant" element={<HrApplicant/>} />
       <Route path="/performanceIndicator" element={<HrIndicator/>} />
-      <Route path="/employeeappraisal" element={<HrAppraisal/>} />
+      <Route path="/performanceappraisal" element={<HrAppraisal/>} />
       <Route path="/performanceReview" element={<HrReview/>} />
       <Route path="/performanceIndicator" element={<HrIndicator/>} />
       <Route path="/trainingList" element={<HrTraining/>} />

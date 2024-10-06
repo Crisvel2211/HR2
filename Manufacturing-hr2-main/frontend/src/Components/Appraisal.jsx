@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-function EmployeeAppraisal() {
-  // Initial Data
+function PerformanceAppraisal() {
+  // Initial Data (loaded from localStorage or set as empty array)
   const initialData = JSON.parse(localStorage.getItem('appraisals')) || [];
 
   const [appraisalData, setAppraisalData] = useState(initialData);
   const [form, setForm] = useState({
     id: '',
+    picture: '',
     employee: '',
     designation: '',
     department: '',
@@ -19,9 +20,25 @@ function EmployeeAppraisal() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Handle image input
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setForm({ ...form, picture: reader.result });
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   // Create or Update Record
   const handleSubmit = (e) => {
     e.preventDefault();
+    const currentDate = new Date().toISOString().slice(0, 10);
+
     if (form.id) {
       // Update
       setAppraisalData(
@@ -33,7 +50,7 @@ function EmployeeAppraisal() {
       // Create
       setAppraisalData([
         ...appraisalData,
-        { ...form, id: appraisalData.length + 1 },
+        { ...form, id: appraisalData.length + 1, appraisalDate: currentDate },
       ]);
     }
     resetForm();
@@ -54,6 +71,7 @@ function EmployeeAppraisal() {
   const resetForm = () => {
     setForm({
       id: '',
+      picture: '',
       employee: '',
       designation: '',
       department: '',
@@ -62,24 +80,31 @@ function EmployeeAppraisal() {
     });
   };
 
-  // Save data to local storage whenever appraisalData changes
+  // Save data to localStorage whenever appraisalData changes
   useEffect(() => {
     localStorage.setItem('appraisals', JSON.stringify(appraisalData));
   }, [appraisalData]);
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Employee Appraisal Management</h2>
+      <h2 className="text-2xl font-bold mb-4">Performance Appraisal Management</h2>
 
       {/* Form for Add/Edit */}
       <form onSubmit={handleSubmit} className="mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
+            type="file"
+            name="picture"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="input input-bordered"
+          />
+          <input
             type="text"
             name="employee"
             value={form.employee}
             onChange={handleChange}
-            placeholder="Employee"
+            placeholder="Employee Name"
             className="input input-bordered"
             required
           />
@@ -98,15 +123,6 @@ function EmployeeAppraisal() {
             value={form.department}
             onChange={handleChange}
             placeholder="Department"
-            className="input input-bordered"
-            required
-          />
-          <input
-            type="date"
-            name="appraisalDate"
-            value={form.appraisalDate}
-            onChange={handleChange}
-            placeholder="Appraisal Date"
             className="input input-bordered"
             required
           />
@@ -130,6 +146,7 @@ function EmployeeAppraisal() {
         <thead>
           <tr className="bg-base-200">
             <th className="px-4 py-2">#</th>
+            <th className="px-4 py-2">Picture</th>
             <th className="px-4 py-2">Employee</th>
             <th className="px-4 py-2">Designation</th>
             <th className="px-4 py-2">Department</th>
@@ -142,6 +159,17 @@ function EmployeeAppraisal() {
           {appraisalData.map((appraisal) => (
             <tr key={appraisal.id}>
               <td className="border px-4 py-2">{appraisal.id}</td>
+              <td className="border px-4 py-2">
+                {appraisal.picture ? (
+                  <img
+                    src={appraisal.picture}
+                    alt={appraisal.employee}
+                    className="w-16 h-16 object-cover"
+                  />
+                ) : (
+                  'No Image'
+                )}
+              </td>
               <td className="border px-4 py-2">{appraisal.employee}</td>
               <td className="border px-4 py-2">{appraisal.designation}</td>
               <td className="border px-4 py-2">{appraisal.department}</td>
@@ -169,4 +197,4 @@ function EmployeeAppraisal() {
   );
 }
 
-export default EmployeeAppraisal;
+export default PerformanceAppraisal;
