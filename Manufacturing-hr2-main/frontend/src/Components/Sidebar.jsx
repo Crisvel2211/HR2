@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import layout from "./Assets/Logo.jpg";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -85,10 +84,14 @@ function Sidebar() {
         aria-label="Dashboard Logo"
       >
         <NavLink
-          to="/" // Link to the main dashboard page
+          to="/dashboard" // Link to the main dashboard page
           className="flex justify-center items-center gap-2"
         >
-          <img src={layout} alt="Dashboard logo" className="w-14" />
+          <img
+              src="/images/Logo.jpg" // Replace with your logo path
+              alt="Logo"
+              className="h-14 w-14 object-cover"
+            />
           {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
         </NavLink>
       </div>

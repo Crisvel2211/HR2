@@ -105,7 +105,7 @@ const Search = () => {
                 <a>Settings</a>
               </li>
               <li >
-                <Link to='/login'>Log out</Link>
+                <Link to='/'>Log out</Link>
               </li>
             </ul>
           </div>

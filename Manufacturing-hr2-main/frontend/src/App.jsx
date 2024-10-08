@@ -1,8 +1,8 @@
 import React from "react";
 import {Routes, Route} from "react-router-dom";
 
-import HrDashboard from "./pages/HrDashboard";
 import Login from "./pages/Login";
+import HrDashboard from "./pages/HrDashboard";
 import HrApplicant from "./pages/RECRUITMENT & APPLICANT/HrApplicant";
 import HrJobposting from "./pages/RECRUITMENT & APPLICANT/HrJobposting";
 import HrIndicator from "./pages/Performance/HrIndicator";
@@ -18,8 +18,8 @@ import HrAppraisal from "./pages/Performance/HrAppraisal";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HrDashboard/>} />
-      <Route path="/login" element={<Login/>} />
+      <Route path="/dashboard" element={<HrDashboard/>} />
+      <Route path="/" element={<Login/>} />
       <Route path="/jobs" element={<Jobs/>} />
       <Route path="/jobPosting" element={<HrJobposting/>} />
       <Route path="/Applicant" element={<HrApplicant/>} />

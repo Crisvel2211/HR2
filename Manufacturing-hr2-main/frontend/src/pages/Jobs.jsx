@@ -25,9 +25,9 @@ function Jobs() {
           {/* Logo */}
           <div className="flex items-center">
             <img
-              src="/images/.jpg" // Replace with your logo path
+              src="/images/Logo.jpg" // Replace with your logo path
               alt="Logo"
-              className="h-10 w-10 object-cover"
+              className="h-14 w-14 object-cover"
             />
           </div>
 
@@ -42,7 +42,7 @@ function Jobs() {
 
           {/* Login Button */}
           <div>
-            <Link to="/login" className="btn btn-primary">
+            <Link to="/" className="btn btn-primary">
               Login
             </Link>
           </div>

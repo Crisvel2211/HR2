@@ -178,7 +178,7 @@ function PerformanceAppraisal() {
               <td className="border px-4 py-2">
                 <button
                   onClick={() => handleEdit(appraisal.id)}
-                  className="btn btn-sm btn-warning mr-2"
+                  className="btn btn-sm bg-blue-500 mr-2"
                 >
                   Edit
                 </button>

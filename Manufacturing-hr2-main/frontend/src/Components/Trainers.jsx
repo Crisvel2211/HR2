@@ -38,11 +38,9 @@ function Trainers() {
         )
       );
     } else {
-      // Create
-      setTrainingData([
-        ...trainingData,
-        { ...form, id: trainingData.length + 1 },
-      ]);
+      // Create with unique ID
+      const newId = trainingData.length ? Math.max(trainingData.map(item => item.id)) + 1 : 1;
+      setTrainingData([...trainingData, { ...form, id: newId }]);
     }
     // Reset form
     setForm({
@@ -155,7 +153,7 @@ function Trainers() {
                 </button>
                 <button
                   onClick={() => handleDelete(training.id)}
-                  className="btn btn-sm btn-error"
+                  className="btn btn-sm bg-red-500"
                 >
                   Delete
                 </button>
