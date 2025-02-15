@@ -1,0 +1,45 @@
+import React from "react";
+import {Routes, Route} from "react-router-dom";
+
+import Login from "./pages/Login";
+import Signup from "./pages/signup";
+import GlobalDashboard from "./pages/dashboard/globalDashboard"
+import HrApplicant from "./pages/RECRUITMENT & APPLICANT/HrJobListing";
+import HrJobposting from "./pages/RECRUITMENT & APPLICANT/HrJobposting";
+import HrIndicator from "./pages/Performance/HrIndicator";
+import HrReview from "./pages/Performance/HrReview";
+import HrTraining from "./pages/Learning/HrTraining";
+import HrSuccession from "./pages/HrSuccession";
+import HrTrainers from "./pages/Learning/HrTrainers";
+import HrTrainingType from "./pages/Learning/HrTrainingType";
+import Jobs from "./pages/Jobs";
+import HrAppraisal from "./pages/Performance/HrAppraisal";
+import JobDetails from "./pages/JobDetails";
+import HrJobListing from "./pages/RECRUITMENT & APPLICANT/HrJobListing";
+import HrListUsers from "./pages/RECRUITMENT & APPLICANT/HrListUsers";
+
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/dashboard" element={<GlobalDashboard/>} />
+      <Route path="/login" element={<Login/>} />
+      <Route path="/signup" element={<Signup/>} />
+      <Route path="/" element={<Jobs/>} />
+      <Route path="/jobs/:id" element={<JobDetails/>} />
+      <Route path="/jobPosting" element={<HrJobposting/>} />
+      <Route path="/listUsers" element={<HrListUsers/>} />
+      <Route path="/JobListing" element={<HrJobListing/>} />
+      <Route path="/performanceIndicator" element={<HrIndicator/>} />
+      <Route path="/performanceappraisal" element={<HrAppraisal/>} />
+      <Route path="/performanceReview" element={<HrReview/>} />
+      <Route path="/performanceIndicator" element={<HrIndicator/>} />
+      <Route path="/trainingList" element={<HrTraining/>} />
+      <Route path="/trainers" element={<HrTrainers/>} />
+      <Route path="/trainingType" element={<HrTrainingType/>} />
+      <Route path="/succession" element={<HrSuccession/>} />
+    </Routes>
+  );
+};
+
+export default App;
