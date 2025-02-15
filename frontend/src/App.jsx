@@ -38,6 +38,7 @@ function App() {
       <Route path="/trainers" element={<HrTrainers/>} />
       <Route path="/trainingType" element={<HrTrainingType/>} />
       <Route path="/succession" element={<HrSuccession/>} />
+      <Route path="/successionssdsf" element={<HrSuccession/>} />
     </Routes>
   );
 };
