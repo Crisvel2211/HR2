@@ -5,6 +5,8 @@ import cors from 'cors'
 import bodyParser from 'body-parser';
 import authRoutes from './routes/authRoute.js';
 import jobPostingRoutes from "./routes/jobPostingRoute.js";
+import  candidateRoutes from "./routes/candidateApplyRoute.js";
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,6 +23,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use("/api/jobs", jobPostingRoutes);
+app.use("/api/candidates", candidateRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

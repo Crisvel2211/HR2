@@ -1,12 +1,26 @@
-import axios from 'axios';
+
 
 
 export const createJob = async (jobData) => {
   try {
-    const response = await axios.post('http://localhost:5000/api/jobs', jobData);
-    return response.data;
+    const response = await fetch('http://localhost:5000/api/jobs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jobData)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Error creating job');
+    }
+
+    return data.job; // Return the created job object
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error creating job');
+    console.error("Error creating job:", error);
+    throw new Error(error.message || 'Error creating job');
   }
 };
 
@@ -24,10 +38,10 @@ export const getAllJobs = async () => {
       console.error('Error fetching jobs:', error);
       return []; // Return an empty array on error
     }
-  };
+};
   
 
-  export const getJobById = async (id) => {
+export const getJobById = async (id) => {
     try {
       const response = await fetch(`http://localhost:5000/api/jobs/${id}`); // Ensure this endpoint is correct
       const data = await response.json();
@@ -45,8 +59,9 @@ export const getAllJobs = async () => {
       console.error("Error fetching job:", error);
       return null; // Return null if there's an error
     }
-  };
-  export const updateJob = async (jobId, updatedData) => {
+};
+
+export const updateJob = async (jobId, updatedData) => {
     try {
       const response = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
         method: "PUT",
@@ -63,9 +78,9 @@ export const getAllJobs = async () => {
       console.error("Error updating job:", error);
       return null;
     }
-  };
+};
   
-  export const deleteJob = async (jobId) => {
+export const deleteJob = async (jobId) => {
     try {
       const response = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
         method: "DELETE",
@@ -80,6 +95,6 @@ export const getAllJobs = async () => {
       console.error("Error deleting job:", error);
       return false;
     }
-  };
+};
   
   

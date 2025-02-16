@@ -21,8 +21,9 @@ const jobPostingSchema = new mongoose.Schema(
       default: "On-site", // Default work option is on-site
     },
     urgency: {
-      type: Boolean,
-      default: false, // If job is urgently hiring
+      type: String,
+      enum: ["Urgent", "Normal"],
+      default: "Urgent", // If job is urgently hiring
     },
     responseTime: {
       type: String,

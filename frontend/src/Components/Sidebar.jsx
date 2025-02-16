@@ -9,7 +9,7 @@ import {
 import { RiFilePaper2Line } from "react-icons/ri";
 import { FiBox } from "react-icons/fi";
 import { FaChalkboard, FaGraduationCap, FaUserPlus } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaChalkboardUser, FaChartPie } from "react-icons/fa6";
 
 function Sidebar() {
@@ -87,11 +87,14 @@ function Sidebar() {
           to="/dashboard" // Link to the main dashboard page
           className="flex justify-center items-center gap-2"
         >
+          <Link to="/">
           <img
               src="/images/Logo.jpg" // Replace with your logo path
               alt="Logo"
               className="h-14 w-14 object-cover"
             />
+          </Link>
+          
           {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
         </NavLink>
       </div>

@@ -83,7 +83,7 @@ function Jobs() {
                     </p>
                   </div>
                   <div className="mt-4 flex justify-between items-center">
-                    <p className="text-lg font-bold text-primary">${job.salary}</p>
+                    <p className="text-lg font-bold text-primary">₱{job.salary.toLocaleString()}</p>
                     <span
                       className={`badge ${
                         job.employmentType === 'Full-time' ? 'badge-primary' : 'badge-secondary'
